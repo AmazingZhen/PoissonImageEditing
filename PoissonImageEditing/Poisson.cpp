@@ -189,17 +189,19 @@ namespace {
 					int kc = c + offx[k];
 
 					if (kr >= 0 && kr < rows && kc >= 0 && kc < cols) {
-						if (mixing_gradients) {
-							double src_grad = src[ch](r, c) - src[ch](kr, kc);
-							double dst_grad = dst[ch](r, c) - dst[ch](kr, kc);
-							bvec(i) += (std::abs(src_grad) > std::abs(dst_grad) ? src_grad : dst_grad);
-						}
-						else {
-							bvec(i) += (src[ch](r, c) - src[ch](kr, kc));
-						}
-
 						int ki = MI(kr, kc);
-						if (ki == -1) { // This is the actual boundary condition
+
+						if (ki != -1) {
+							if (mixing_gradients) {
+								double src_grad = src[ch](r, c) - src[ch](kr, kc);
+								double dst_grad = dst[ch](r, c) - dst[ch](kr, kc);
+								bvec(i) += (std::abs(src_grad) > std::abs(dst_grad) ? src_grad : dst_grad);
+							}
+							else {
+								bvec(i) += (src[ch](r, c) - src[ch](kr, kc));
+							}
+						}
+						else { // This is the actual boundary condition
 							bvec(i) += dst[ch](kr, kc);
 						}
 					}
