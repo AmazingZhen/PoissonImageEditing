@@ -156,12 +156,12 @@ namespace {
 				int kc = c + offx[k];
 
 				if (kr >= 0 && kr < rows && kc >= 0 && kc < cols) {
-					int ki = MI(kr, kc);
+					count++;
 
+					int ki = MI(kr, kc);
 					if (ki != -1) {
 						tri_list.push_back(tri(i, ki, -1));
 					}
-					count++;
 				}
 			}
 
